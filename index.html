@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bougie Pups Mobile Dog Nails | Luxury Pet Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A962;
+            --gold-light: #E8D5A3;
+            --gold-dark: #9A7B3C;
+            --blush: #F8F0EC;
+            --blush-deep: #EBDCD5;
+            --charcoal: #2A2A2A;
+            --charcoal-soft: #4A4A4A;
+            --cream: #FFFBF7;
+            --rose: #C4A4A4;
+            --rose-gold: #B8938D;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+        }
+
+        /* Interactive Background Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Mouse glow overlay */
+        .mouse-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(circle, rgba(201, 169, 98, 0.25) 0%, rgba(201, 169, 98, 0.1) 30%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            mix-blend-mode: overlay;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, var(--cream) 0%, transparent 100%);
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 251, 247, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(201, 169, 98, 0.1);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            letter-spacing: 0.02em;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--charcoal-soft);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-dark);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 0.9rem 2rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .nav-cta:hover::before {
+            left: 0;
+        }
+
+        .nav-cta:hover {
+            color: var(--charcoal);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 8rem 4rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(201, 169, 98, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(196, 164, 164, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(232, 213, 163, 0.1) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+            color: var(--charcoal);
+            padding: 0.6rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--charcoal-soft);
+            font-weight: 300;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(201, 169, 98, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--charcoal);
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: 2px solid var(--charcoal);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--charcoal);
+            color: var(--cream);
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 5rem;
+            animation: fadeInUp 0.8s ease 0.8s forwards;
+            opacity: 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--gold-dark);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--charcoal-soft);
+            margin-top: 0.5rem;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--charcoal-soft);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            color: var(--charcoal);
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--white);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+            border-color: var(--blush-deep);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--blush);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--gold-light);
+            transform: scale(1.1);
+        }
+
+        .service-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .service-card p {
+            color: var(--charcoal-soft);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-price {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--gold-dark);
+            font-weight: 600;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 4rem;
+            background: var(--blush);
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image-main {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--rose) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        .about-image-badge {
+            position: absolute;
+            bottom: -2rem;
+            right: -2rem;
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .about-image-badge .number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            display: block;
+            color: var(--gold);
+        }
+
+        .about-image-badge span {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .about-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .about-text h2 em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+
+        .about-text p {
+            color: var(--charcoal-soft);
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .about-feature-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .about-feature span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        /* Service Areas */
+        .areas {
+            padding: 8rem 4rem;
+            position: relative;
+            z-index: 2;
+            background: var(--cream);
+        }
+
+        .areas-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .areas-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .area-tag {
+            background: var(--white);
+            border: 1px solid var(--blush-deep);
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .area-tag:hover {
+            background: var(--gold-light);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .area-tag.primary {
+            background: var(--charcoal);
+            color: var(--cream);
+            border-color: var(--charcoal);
+        }
+
+        .area-tag.primary:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 8rem 4rem;
+            background: var(--charcoal);
+            color: var(--cream);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .testimonials::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 4rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20rem;
+            color: var(--gold);
+            opacity: 0.1;
+            line-height: 1;
+        }
+
+        .testimonials .section-label {
+            color: var(--gold);
+        }
+
+        .testimonials .section-title {
+            color: var(--cream);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 98, 0.2);
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+        }
+
+        .testimonial-card:hover {
+            background: rgba(201, 169, 98, 0.08);
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-stars {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.2em;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-style: italic;
+            color: rgba(255, 251, 247, 0.9);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            display: block;
+        }
+
+        .testimonial-pet {
+            font-size: 0.85rem;
+            color: var(--gold-light);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 4rem;
+            position: relative;
+            z-index: 2;
+            background: var(--cream);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .contact-info h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info h2 em {
+            font-style: italic;
+            color: var(--gold-dark);
+        }
+
+        .contact-info > p {
+            color: var(--charcoal-soft);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .contact-icon {
+            width: 55px;
+            height: 55px;
+            background: var(--blush);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover .contact-icon {
+            background: var(--gold-light);
+        }
+
+        .contact-item-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-item-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--charcoal-soft);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-item-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        .contact-form-wrapper {
+            background: var(--white);
+            padding: 3rem;
+            border: 1px solid var(--blush-deep);
+        }
+
+        .contact-form h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--charcoal-soft);
+            margin-bottom: 0.6rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--blush-deep);
+            background: var(--cream);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: var(--white);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-submit {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 1.2rem 3rem;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            width: 100%;
+        }
+
+        .form-submit:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        .footer-text {
+            color: rgba(255, 251, 247, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-social a {
+            width: 45px;
+            height: 45px;
+            border: 1px solid rgba(201, 169, 98, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Navigation */
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .mobile-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 1.5rem 2rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--cream);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: right 0.4s ease;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 2rem 4rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
+            }
+
+            .services {
+                padding: 5rem 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about {
+                padding: 5rem 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-image-badge {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                display: inline-block;
+                margin-top: 1.5rem;
+            }
+
+            .areas {
+                padding: 5rem 2rem;
+            }
+
+            .testimonials {
+                padding: 5rem 2rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact {
+                padding: 5rem 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .cursor, .cursor-dot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Mouse Glow Effect -->
+    <div class="mouse-glow"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Bougie <span>Pups</span></div>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#areas">Areas</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Book Now</a>
+        <div class="mobile-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="hero-badge">Mobile Dog Nail Services</span>
+            <h1>Pampered Paws,<br><em>Delivered</em> to You</h1>
+            <p class="hero-subtitle">
+                Luxury mobile nail care for your furry family members.<br>
+                Stress-free grooming in the comfort of your home.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">Schedule Appointment</a>
+                <a href="#services" class="btn-secondary">View Services</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Recommended</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">11+</span>
+                    <span class="stat-label">5-Star Reviews</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Availability</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header reveal">
+            <span class="section-label">What We Offer</span>
+            <h2 class="section-title">Premium <em>Services</em></h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon">✨</div>
+                <h3>Mobile Nail Trim</h3>
+                <p>Professional nail trimming service that comes directly to your doorstep. We handle anxious pups with patience and care, ensuring a stress-free experience.</p>
+                <span class="service-price">Starting at $25</span>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">💅</div>
+                <h3>Nail Grinding & Filing</h3>
+                <p>Smooth, rounded nails using professional-grade dremel tools. Perfect for dogs who are sensitive to traditional clipping methods.</p>
+                <span class="service-price">Starting at $30</span>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🛁</div>
+                <h3>In-Shop Grooming</h3>
+                <p>Full grooming services available at our shop location. Includes bath, brush, nail care, and ear cleaning for the complete spa experience.</p>
+                <span class="service-price">Starting at $45</span>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🐾</div>
+                <h3>Puppy First Trim</h3>
+                <p>Gentle introduction to nail care for puppies. We take extra time to create positive associations with grooming from an early age.</p>
+                <span class="service-price">Starting at $20</span>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">👑</div>
+                <h3>Senior Dog Care</h3>
+                <p>Specialized gentle handling for our senior furry friends. Extra patience and comfort measures for dogs with mobility issues or anxiety.</p>
+                <span class="service-price">Starting at $30</span>
+            </div>
+            <div class="service-card reveal">
+                <div class="service-icon">🌟</div>
+                <h3>Multi-Pet Discount</h3>
+                <p>Have multiple fur babies? Book them together and save! We offer special pricing for households with 2 or more pets.</p>
+                <span class="service-price">15% Off</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-content">
+            <div class="about-image reveal">
+                <div class="about-image-main" style="background: none;">
+                    <img src="image15.jpeg" alt="Happy pup getting pampered" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="about-image-badge">
+                    <span class="number">100%</span>
+                    <span>Satisfaction Rate</span>
+                </div>
+            </div>
+            <div class="about-text reveal">
+                <span class="section-label">Our Story</span>
+                <h2>Where <em>Passion</em> Meets Professional Care</h2>
+                <p>Welcome to Bougie Pups Mobile Dog Nails! I'm dedicated to providing premium nail care services that prioritize your pet's comfort and well-being.</p>
+                <p>I understand that many dogs experience anxiety during grooming. That's why I bring my services directly to you—eliminating the stress of car rides and unfamiliar environments. Every pup deserves to feel safe and pampered.</p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <div class="about-feature-icon">✓</div>
+                        <span>Certified Professional</span>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">✓</div>
+                        <span>Mobile Convenience</span>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">✓</div>
+                        <span>Fear-Free Approach</span>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon">✓</div>
+                        <span>All Breeds Welcome</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Areas -->
+    <section class="areas" id="areas">
+        <div class="areas-content">
+            <div class="section-header reveal">
+                <span class="section-label">Where We Serve</span>
+                <h2 class="section-title">Service <em>Areas</em></h2>
+            </div>
+            <div class="areas-grid reveal">
+                <div class="area-tag primary">Pace, FL</div>
+                <div class="area-tag primary">Pensacola, FL</div>
+                <div class="area-tag">Pensacola Beach, FL</div>
+                <div class="area-tag">Milton, FL</div>
+                <div class="area-tag">Gulf Breeze, FL</div>
+                <div class="area-tag">Navarre, FL</div>
+                <div class="area-tag">Orange Beach, AL</div>
+                <div class="area-tag">Perdido Key, FL</div>
+                <div class="area-tag">Santa Rosa County</div>
+                <div class="area-tag">Escambia County</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header reveal">
+            <span class="section-label">Happy Clients</span>
+            <h2 class="section-title">What Pet Parents <em>Say</em></h2>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"Absolutely amazing service! My anxious pup was so calm during his nail trim. The convenience of having it done at home made all the difference. Will definitely book again!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">S</div>
+                    <div>
+                        <span class="testimonial-name">Sarah M.</span>
+                        <span class="testimonial-pet">Mom to Max, Golden Retriever</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"Finally found someone who can handle my senior dog with the care she deserves. Patient, gentle, and truly professional. My girl didn't stress at all!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">J</div>
+                    <div>
+                        <span class="testimonial-name">Jennifer L.</span>
+                        <span class="testimonial-pet">Mom to Bella, 12yr Lab Mix</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p>"So convenient and reasonably priced! I have three dogs and getting them all done at once without leaving the house is a game changer. Highly recommend!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">M</div>
+                    <div>
+                        <span class="testimonial-name">Mike R.</span>
+                        <span class="testimonial-pet">Dad to 3 Rescue Pups</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <div class="contact-info reveal">
+                <span class="section-label">Get in Touch</span>
+                <h2>Ready to <em>Pamper</em> Your Pup?</h2>
+                <p>Schedule your appointment today and give your furry friend the luxury nail care they deserve. We're just a call or message away!</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-item-text">
+                            <span class="contact-item-label">Location</span>
+                            <span class="contact-item-value">Pace, FL 32571</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-item-text">
+                            <span class="contact-item-label">Phone</span>
+                            <span class="contact-item-value">(448) 456-8017</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">⏰</div>
+                        <div class="contact-item-text">
+                            <span class="contact-item-label">Hours</span>
+                            <span class="contact-item-value">Always Open - By Appointment</span>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💬</div>
+                        <div class="contact-item-text">
+                            <span class="contact-item-label">Social</span>
+                            <span class="contact-item-value">@BougiePupsMobileDogNails</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-wrapper reveal">
+                <form class="contact-form">
+                    <h3>Book an Appointment</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" placeholder="(555) 123-4567" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pet's Name</label>
+                            <input type="text" placeholder="Buddy" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Service Needed</label>
+                            <select required>
+                                <option value="">Select a service</option>
+                                <option>Mobile Nail Trim</option>
+                                <option>Nail Grinding & Filing</option>
+                                <option>In-Shop Grooming</option>
+                                <option>Puppy First Trim</option>
+                                <option>Senior Dog Care</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Message (Optional)</label>
+                        <textarea placeholder="Tell us about your pup..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Request Appointment</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Bougie <span>Pups</span></div>
+        <p class="footer-text">Luxury Mobile Dog Nail Services in Pace, FL</p>
+        <p class="footer-text">© 2026 Bougie Pups Mobile Dog Nails. All rights reserved.</p>
+        <div class="footer-social">
+            <a href="#" aria-label="Facebook">f</a>
+            <a href="#" aria-label="Instagram">ig</a>
+            <a href="#" aria-label="Phone">☎</a>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // DRAMATIC INTERACTIVE BACKGROUND EFFECTS
+        // ============================================
+
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        const mouseGlow = document.querySelector('.mouse-glow');
+
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Arrays to hold our effects
+        let pawPrints = [];
+        let bubbles = [];
+        let sparkles = [];
+
+        // Mouse tracking
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let lastMouseX = -1000;
+        let lastMouseY = -1000;
+        let mouseSpeed = 0;
+
+        // ============================================
+        // PAW PRINT CLASS - Stamps on screen
+        // ============================================
+        class PawPrint {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = 15 + Math.random() * 10;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.opacity = 0.6;
+                this.fadeSpeed = 0.008 + Math.random() * 0.005;
+                this.color = `hsla(${35 + Math.random() * 15}, 55%, ${55 + Math.random() * 15}%, `;
+            }
+
+            draw() {
+                if (this.opacity <= 0) return;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                const s = this.size;
+
+                // Main pad (large oval)
+                ctx.beginPath();
+                ctx.ellipse(0, s * 0.3, s * 0.55, s * 0.45, 0, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + '1)';
+                ctx.fill();
+
+                // Toe beans (4 small circles)
+                const toePositions = [
+                    { x: -s * 0.4, y: -s * 0.25 },
+                    { x: -s * 0.15, y: -s * 0.5 },
+                    { x: s * 0.15, y: -s * 0.5 },
+                    { x: s * 0.4, y: -s * 0.25 }
+                ];
+
+                toePositions.forEach(pos => {
+                    ctx.beginPath();
+                    ctx.ellipse(pos.x, pos.y, s * 0.18, s * 0.22, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                ctx.restore();
+            }
+
+            update() {
+                this.opacity -= this.fadeSpeed;
+                return this.opacity > 0;
+            }
+        }
+
+        // ============================================
+        // BUBBLE CLASS - Float up from cursor
+        // ============================================
+        class Bubble {
+            constructor(x, y) {
+                this.x = x + (Math.random() - 0.5) * 30;
+                this.y = y + (Math.random() - 0.5) * 30;
+                this.size = 5 + Math.random() * 20;
+                this.speedY = -1 - Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = 0.05 + Math.random() * 0.05;
+                this.opacity = 0.7 + Math.random() * 0.3;
+                this.hue = 35 + Math.random() * 20;
+            }
+
+            draw() {
+                if (this.opacity <= 0) return;
+
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+
+                // Bubble body
+                const gradient = ctx.createRadialGradient(
+                    this.x - this.size * 0.3, this.y - this.size * 0.3, 0,
+                    this.x, this.y, this.size
+                );
+                gradient.addColorStop(0, `hsla(${this.hue}, 30%, 95%, 0.9)`);
+                gradient.addColorStop(0.5, `hsla(${this.hue}, 40%, 85%, 0.5)`);
+                gradient.addColorStop(1, `hsla(${this.hue}, 50%, 70%, 0.2)`);
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Bubble outline
+                ctx.strokeStyle = `hsla(${this.hue}, 60%, 75%, ${this.opacity * 0.5})`;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                // Shine highlight
+                ctx.beginPath();
+                ctx.arc(this.x - this.size * 0.35, this.y - this.size * 0.35, this.size * 0.25, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(0, 0%, 100%, ${this.opacity * 0.8})`;
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            update() {
+                this.wobble += this.wobbleSpeed;
+                this.x += this.speedX + Math.sin(this.wobble) * 0.5;
+                this.y += this.speedY;
+                this.opacity -= 0.008;
+                this.size -= 0.05;
+                return this.opacity > 0 && this.size > 0;
+            }
+        }
+
+        // ============================================
+        // SPARKLE CLASS - Glitter effect
+        // ============================================
+        class Sparkle {
+            constructor(x, y) {
+                this.x = x + (Math.random() - 0.5) * 60;
+                this.y = y + (Math.random() - 0.5) * 60;
+                this.size = 2 + Math.random() * 4;
+                this.maxSize = this.size;
+                this.opacity = 1;
+                this.growing = true;
+                this.speed = 0.15 + Math.random() * 0.1;
+                this.hue = 40 + Math.random() * 20;
+                this.rotation = Math.random() * Math.PI;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.1;
+            }
+
+            draw() {
+                if (this.opacity <= 0) return;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                // Draw 4-point star
+                ctx.beginPath();
+                for (let i = 0; i < 4; i++) {
+                    const angle = (i * Math.PI) / 2;
+                    const outerX = Math.cos(angle) * this.size;
+                    const outerY = Math.sin(angle) * this.size;
+                    const innerAngle = angle + Math.PI / 4;
+                    const innerX = Math.cos(innerAngle) * (this.size * 0.3);
+                    const innerY = Math.sin(innerAngle) * (this.size * 0.3);
+
+                    if (i === 0) {
+                        ctx.moveTo(outerX, outerY);
+                    } else {
+                        ctx.lineTo(outerX, outerY);
+                    }
+                    ctx.lineTo(innerX, innerY);
+                }
+                ctx.closePath();
+                ctx.fillStyle = `hsla(${this.hue}, 70%, 70%, 1)`;
+                ctx.fill();
+
+                // Glow
+                ctx.shadowColor = `hsla(${this.hue}, 80%, 60%, 1)`;
+                ctx.shadowBlur = 10;
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            update() {
+                this.rotation += this.rotationSpeed;
+                if (this.growing) {
+                    this.size += this.speed;
+                    if (this.size >= this.maxSize * 1.5) this.growing = false;
+                } else {
+                    this.size -= this.speed * 0.5;
+                    this.opacity -= 0.03;
+                }
+                return this.opacity > 0;
+            }
+        }
+
+        // ============================================
+        // MOUSE GLOW - Follows cursor with light effect
+        // ============================================
+        function updateMouseGlow(x, y) {
+            mouseGlow.style.left = x + 'px';
+            mouseGlow.style.top = y + 'px';
+            mouseGlow.style.opacity = '1';
+
+            // Scale glow based on mouse speed
+            const scale = 1 + Math.min(mouseSpeed * 0.01, 0.5);
+            mouseGlow.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        }
+
+        // ============================================
+        // SPAWN EFFECTS
+        // ============================================
+        let lastPawTime = 0;
+        let lastBubbleTime = 0;
+        let pawStepAlternate = false;
+
+        function spawnEffects(x, y) {
+            const now = Date.now();
+
+            // Spawn paw prints every ~150ms while moving
+            if (mouseSpeed > 2 && now - lastPawTime > 150) {
+                // Offset paw prints slightly left/right to simulate walking
+                const offset = pawStepAlternate ? -15 : 15;
+                pawPrints.push(new PawPrint(x + offset, y));
+                pawStepAlternate = !pawStepAlternate;
+                lastPawTime = now;
+            }
+
+            // Spawn bubbles continuously while moving
+            if (mouseSpeed > 1 && now - lastBubbleTime > 50) {
+                const bubbleCount = Math.min(Math.floor(mouseSpeed / 5) + 1, 3);
+                for (let i = 0; i < bubbleCount; i++) {
+                    bubbles.push(new Bubble(x, y));
+                }
+                lastBubbleTime = now;
+            }
+
+            // Spawn sparkles occasionally
+            if (mouseSpeed > 3 && Math.random() < 0.3) {
+                sparkles.push(new Sparkle(x, y));
+            }
+        }
+
+        // ============================================
+        // ANIMATION LOOP
+        // ============================================
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw paw prints
+            pawPrints = pawPrints.filter(paw => {
+                paw.draw();
+                return paw.update();
+            });
+
+            // Update and draw bubbles
+            bubbles = bubbles.filter(bubble => {
+                bubble.draw();
+                return bubble.update();
+            });
+
+            // Update and draw sparkles
+            sparkles = sparkles.filter(sparkle => {
+                sparkle.draw();
+                return sparkle.update();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Calculate mouse speed
+            const dx = mouseX - lastMouseX;
+            const dy = mouseY - lastMouseY;
+            mouseSpeed = Math.sqrt(dx * dx + dy * dy);
+
+            // Spawn effects
+            spawnEffects(mouseX, mouseY);
+
+            // Update glow position
+            updateMouseGlow(mouseX, mouseY);
+
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+        });
+
+        document.addEventListener('mouseleave', () => {
+            mouseGlow.style.opacity = '0';
+            mouseSpeed = 0;
+        });
+
+        document.addEventListener('mouseenter', () => {
+            mouseGlow.style.opacity = '1';
+        });
+
+        // Click to create burst of effects
+        document.addEventListener('click', (e) => {
+            // Burst of bubbles
+            for (let i = 0; i < 12; i++) {
+                bubbles.push(new Bubble(e.clientX, e.clientY));
+            }
+            // Burst of sparkles
+            for (let i = 0; i < 8; i++) {
+                sparkles.push(new Sparkle(e.clientX, e.clientY));
+            }
+            // Central paw print
+            pawPrints.push(new PawPrint(e.clientX, e.clientY));
+        });
+
+        // Start animation
+        animate();
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+            cursorDot.style.left = e.clientX - 3 + 'px';
+            cursorDot.style.top = e.clientY - 3 + 'px';
+        });
+
+        // Cursor hover effects
+        const hoverElements = document.querySelectorAll('a, button, .service-card, .testimonial-card, .area-tag');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursor.style.borderColor = '#C9A962';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursor.style.borderColor = '#C9A962';
+            });
+        });
+
+        // Navigation scroll effect
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Navigation Toggle
+        const mobileToggle = document.querySelector('.mobile-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+        });
+
+        // Close mobile nav on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileToggle.classList.remove('active');
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOnScroll = () => {
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Initial check
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your booking request! We will contact you shortly to confirm your appointment.');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
