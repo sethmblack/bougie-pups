@@ -630,6 +630,153 @@
             color: var(--charcoal);
         }
 
+        /* Gallery Section */
+        .gallery {
+            padding: 8rem 4rem;
+            background: var(--blush);
+            position: relative;
+            z-index: 2;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+
+        .gallery-item.wide {
+            grid-column: span 2;
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(42, 42, 42, 0.6) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            color: var(--white);
+            z-index: 1;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-item-overlay span {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--white);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery {
+                padding: 5rem 2rem;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item.wide,
+            .gallery-item.tall {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
         /* Testimonials */
         .testimonials {
             padding: 8rem 4rem;
@@ -1117,6 +1264,7 @@
         <ul class="nav-links">
             <li><a href="#services">Services</a></li>
             <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
             <li><a href="#areas">Areas</a></li>
             <li><a href="#testimonials">Reviews</a></li>
             <li><a href="#contact">Contact</a></li>
@@ -1224,8 +1372,8 @@
             </div>
             <div class="about-text reveal">
                 <span class="section-label">Our Story</span>
-                <h2>Where <em>Passion</em> Meets Professional Care</h2>
-                <p>Welcome to Bougie Pups Mobile Dog Nails! I'm dedicated to providing premium nail care services that prioritize your pet's comfort and well-being.</p>
+                <h2>Meet <em>Heather</em></h2>
+                <p>Welcome to Bougie Pups Mobile Dog Nails! I'm Heather, and I'm dedicated to providing premium nail care services that prioritize your pet's comfort and well-being.</p>
                 <p>I understand that many dogs experience anxiety during grooming. That's why I bring my services directly to you—eliminating the stress of car rides and unfamiliar environments. Every pup deserves to feel safe and pampered.</p>
                 <div class="about-features">
                     <div class="about-feature">
@@ -1270,6 +1418,70 @@
             </div>
         </div>
     </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery" id="gallery">
+        <div class="section-header reveal">
+            <span class="section-label">Our Work</span>
+            <h2 class="section-title">Happy <em>Pups</em></h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item tall reveal" onclick="openLightbox('IMG_4480.JPG')">
+                <img src="IMG_4480.JPG" alt="Before and after nail trim" loading="lazy">
+                <div class="gallery-item-overlay"><span>Before & After</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3983.JPG')">
+                <img src="IMG_3983.JPG" alt="Goldendoodle bath time" loading="lazy">
+                <div class="gallery-item-overlay"><span>Bath Time</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3971.JPG')">
+                <img src="IMG_3971.JPG" alt="Poodle getting groomed" loading="lazy">
+                <div class="gallery-item-overlay"><span>Fresh Cut</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('image15.jpeg')">
+                <img src="image15.jpeg" alt="French Bulldog" loading="lazy">
+                <div class="gallery-item-overlay"><span>Pampered Pup</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3972.JPG')">
+                <img src="IMG_3972.JPG" alt="Happy dog" loading="lazy">
+                <div class="gallery-item-overlay"><span>All Smiles</span></div>
+            </div>
+            <div class="gallery-item wide reveal" onclick="openLightbox('IMG_4322.JPG')">
+                <img src="IMG_4322.JPG" alt="Bougie Pups branded shirts" loading="lazy">
+                <div class="gallery-item-overlay"><span>The Team</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3973.JPG')">
+                <img src="IMG_3973.JPG" alt="Dog grooming" loading="lazy">
+                <div class="gallery-item-overlay"><span>Spa Day</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3974.JPG')">
+                <img src="IMG_3974.JPG" alt="Happy customer" loading="lazy">
+                <div class="gallery-item-overlay"><span>Happy Customer</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3975.JPG')">
+                <img src="IMG_3975.JPG" alt="Grooming session" loading="lazy">
+                <div class="gallery-item-overlay"><span>Getting Pretty</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3976.JPG')">
+                <img src="IMG_3976.JPG" alt="Pup at the spa" loading="lazy">
+                <div class="gallery-item-overlay"><span>Relaxing</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3977.JPG')">
+                <img src="IMG_3977.JPG" alt="Dog nail care" loading="lazy">
+                <div class="gallery-item-overlay"><span>Nail Care</span></div>
+            </div>
+            <div class="gallery-item reveal" onclick="openLightbox('IMG_3980.JPG')">
+                <img src="IMG_3980.JPG" alt="Furry friend" loading="lazy">
+                <div class="gallery-item-overlay"><span>Furry Friend</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <img src="" alt="Gallery image" id="lightbox-img">
+    </div>
 
     <!-- Testimonials -->
     <section class="testimonials" id="testimonials">
@@ -1734,6 +1946,37 @@
 
         // Start animation
         animate();
+
+        // ============================================
+        // LIGHTBOX FUNCTIONS
+        // ============================================
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
 
         // Custom Cursor
         const cursor = document.querySelector('.cursor');
