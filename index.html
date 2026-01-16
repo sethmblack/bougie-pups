@@ -1090,6 +1090,30 @@
             font-size: 1.4rem;
         }
 
+        .email-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.4s ease;
+            width: 100%;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .email-btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(201, 169, 98, 0.4);
+        }
+
         /* Footer */
         footer {
             background: linear-gradient(135deg, var(--charcoal) 0%, var(--purple-dark) 100%);
@@ -1700,6 +1724,10 @@
                     <a href="https://m.me/Boujeedognailsgrooming" target="_blank" class="messenger-btn">
                         <span class="messenger-icon">💬</span>
                         Message Us on Facebook
+                    </a>
+                    <a href="mailto:bougiepupspacefl@yahoo.com?subject=Appointment%20Request&body=Hi%20Heather!%0A%0AI'd%20like%20to%20schedule%20an%20appointment%20for%20my%20pup.%0A%0APet's%20Name:%0AService%20Needed:%0APreferred%20Date/Time:%0A%0AThank%20you!" class="email-btn">
+                        <span class="messenger-icon">✉️</span>
+                        Email Us
                     </a>
                     <p style="color: var(--charcoal-soft); font-size: 0.9rem; margin-top: 2rem; text-align: center;">Or call/text: <a href="tel:4484568017" style="color: var(--purple); font-weight: 600;">(448) 456-8017</a></p>
                 </div>
