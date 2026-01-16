@@ -1063,6 +1063,33 @@
             color: var(--charcoal);
         }
 
+        .messenger-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: linear-gradient(135deg, var(--purple) 0%, #5B3D8A 100%);
+            color: var(--white);
+            padding: 1.2rem 2.5rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: all 0.4s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .messenger-btn:hover {
+            background: linear-gradient(135deg, #5B3D8A 0%, var(--purple-dark) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(107, 76, 154, 0.4);
+        }
+
+        .messenger-icon {
+            font-size: 1.4rem;
+        }
+
         /* Footer */
         footer {
             background: linear-gradient(135deg, var(--charcoal) 0%, var(--purple-dark) 100%);
@@ -1667,41 +1694,15 @@
                 </div>
             </div>
             <div class="contact-form-wrapper reveal">
-                <form class="contact-form">
+                <div class="contact-form">
                     <h3>Book an Appointment</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Your Name</label>
-                            <input type="text" placeholder="Jane Doe" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="(555) 123-4567" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Pet's Name</label>
-                            <input type="text" placeholder="Buddy" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Service Needed</label>
-                            <select required>
-                                <option value="">Select a service</option>
-                                <option>Mobile Nail Trim</option>
-                                <option>Nail Grinding & Filing</option>
-                                <option>In-Shop Grooming</option>
-                                <option>Puppy First Trim</option>
-                                <option>Senior Dog Care</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Message (Optional)</label>
-                        <textarea placeholder="Tell us about your pup..."></textarea>
-                    </div>
-                    <button type="submit" class="form-submit">Request Appointment</button>
-                </form>
+                    <p style="color: var(--charcoal-soft); line-height: 1.8; margin-bottom: 2rem;">Ready to pamper your pup? Message us directly on Facebook Messenger to schedule your appointment. We typically respond within the hour!</p>
+                    <a href="https://m.me/Boujeedognailsgrooming" target="_blank" class="messenger-btn">
+                        <span class="messenger-icon">💬</span>
+                        Message Us on Facebook
+                    </a>
+                    <p style="color: var(--charcoal-soft); font-size: 0.9rem; margin-top: 2rem; text-align: center;">Or call/text: <a href="tel:4484568017" style="color: var(--purple); font-weight: 600;">(448) 456-8017</a></p>
+                </div>
             </div>
         </div>
     </section>
