@@ -473,6 +473,40 @@
             font-weight: 600;
         }
 
+        .price-table {
+            margin-top: 1rem;
+            border-top: 1px solid var(--blush-deep);
+            padding-top: 1rem;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--blush);
+        }
+
+        .price-row:last-child {
+            border-bottom: none;
+        }
+
+        .price-row span:first-child {
+            color: var(--charcoal-soft);
+        }
+
+        .price-row span:last-child {
+            font-weight: 600;
+            color: var(--purple);
+        }
+
+        .price-note {
+            font-size: 0.8rem;
+            color: var(--charcoal-soft);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
         /* About Section */
         .about {
             padding: 8rem 4rem;
@@ -1319,39 +1353,68 @@
         <div class="services-grid">
             <div class="service-card reveal">
                 <div class="service-icon">✨</div>
-                <h3>Mobile Nail Trim</h3>
-                <p>Professional nail trimming service that comes directly to your doorstep. We handle anxious pups with patience and care, ensuring a stress-free experience.</p>
-                <span class="service-price">Starting at $25</span>
+                <h3>Grooming - Normal Coat</h3>
+                <p>Full grooming package for dogs with normal coats. Includes bath, brush, haircut, nail trim, and ear cleaning.</p>
+                <div class="price-table">
+                    <div class="price-row"><span>1-10 lbs</span><span>$75+</span></div>
+                    <div class="price-row"><span>11-20 lbs</span><span>$85+</span></div>
+                    <div class="price-row"><span>21-30 lbs</span><span>$95+</span></div>
+                    <div class="price-row"><span>31-40 lbs</span><span>$105+</span></div>
+                    <div class="price-row"><span>41-50 lbs</span><span>$115+</span></div>
+                    <div class="price-row"><span>51-60 lbs</span><span>$125+</span></div>
+                    <div class="price-row"><span>61-70 lbs</span><span>$135+</span></div>
+                    <div class="price-row"><span>71-80 lbs</span><span>$145+</span></div>
+                    <div class="price-row"><span>81-90 lbs</span><span>$155+</span></div>
+                    <div class="price-row"><span>91-100+ lbs</span><span>$165+</span></div>
+                </div>
             </div>
             <div class="service-card reveal">
                 <div class="service-icon">💅</div>
-                <h3>Nail Grinding & Filing</h3>
-                <p>Smooth, rounded nails using professional-grade dremel tools. Perfect for dogs who are sensitive to traditional clipping methods.</p>
-                <span class="service-price">Starting at $30</span>
+                <h3>Grooming - Poodle/Doodle Coat</h3>
+                <p>Specialized grooming for curly and doodle coats. Extra care for those beautiful, fluffy coats that need extra attention.</p>
+                <div class="price-table">
+                    <div class="price-row"><span>1-10 lbs</span><span>$85+</span></div>
+                    <div class="price-row"><span>11-20 lbs</span><span>$95+</span></div>
+                    <div class="price-row"><span>21-30 lbs</span><span>$105+</span></div>
+                    <div class="price-row"><span>31-40 lbs</span><span>$115+</span></div>
+                    <div class="price-row"><span>41-50 lbs</span><span>$125+</span></div>
+                    <div class="price-row"><span>51-60 lbs</span><span>$135+</span></div>
+                    <div class="price-row"><span>61-70 lbs</span><span>$145+</span></div>
+                    <div class="price-row"><span>71-80 lbs</span><span>$155+</span></div>
+                    <div class="price-row"><span>81-90 lbs</span><span>$165+</span></div>
+                    <div class="price-row"><span>91-100+ lbs</span><span>$175+</span></div>
+                </div>
             </div>
             <div class="service-card reveal">
                 <div class="service-icon">🛁</div>
-                <h3>In-Shop Grooming</h3>
-                <p>Full grooming services available at our shop location. Includes bath, brush, nail care, and ear cleaning for the complete spa experience.</p>
-                <span class="service-price">Starting at $45</span>
+                <h3>Bath Package</h3>
+                <p>Refreshing bath service including shampoo, conditioner, blow dry, brush out, nail trim, and ear cleaning.</p>
+                <div class="price-table">
+                    <div class="price-row"><span>1-20 lbs</span><span>$30-40</span></div>
+                    <div class="price-row"><span>21-40 lbs</span><span>$40-50</span></div>
+                    <div class="price-row"><span>41-60 lbs</span><span>$50-60</span></div>
+                    <div class="price-row"><span>61-80 lbs</span><span>$60-75</span></div>
+                    <div class="price-row"><span>81-100+ lbs</span><span>$75-100+</span></div>
+                </div>
             </div>
             <div class="service-card reveal">
                 <div class="service-icon">🐾</div>
-                <h3>Puppy First Trim</h3>
-                <p>Gentle introduction to nail care for puppies. We take extra time to create positive associations with grooming from an early age.</p>
-                <span class="service-price">Starting at $20</span>
+                <h3>De-Shedding Treatment</h3>
+                <p>Reduce shedding and keep your home fur-free! Special treatment to remove loose undercoat and minimize shedding.</p>
+                <span class="service-price">Starting at $25+</span>
             </div>
             <div class="service-card reveal">
                 <div class="service-icon">👑</div>
-                <h3>Senior Dog Care</h3>
-                <p>Specialized gentle handling for our senior furry friends. Extra patience and comfort measures for dogs with mobility issues or anxiety.</p>
-                <span class="service-price">Starting at $30</span>
+                <h3>De-Matting Service</h3>
+                <p>Gentle removal of mats and tangles. Price varies based on severity - we'll work carefully to keep your pup comfortable.</p>
+                <span class="service-price">Starting at $10+</span>
+                <p class="price-note">Price increases depending on severity</p>
             </div>
             <div class="service-card reveal">
-                <div class="service-icon">🌟</div>
-                <h3>Multi-Pet Discount</h3>
-                <p>Have multiple fur babies? Book them together and save! We offer special pricing for households with 2 or more pets.</p>
-                <span class="service-price">15% Off</span>
+                <div class="service-icon">🚗</div>
+                <h3>Mobile Service</h3>
+                <p>We come to you! Enjoy the convenience of professional grooming right at your doorstep. Serving Pace, Pensacola, and surrounding areas.</p>
+                <span class="service-price">Contact for Quote</span>
             </div>
         </div>
     </section>
